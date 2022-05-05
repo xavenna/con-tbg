@@ -4,7 +4,7 @@ written by xavenna
 
 this is a work in progress  
 it doesn't work and is buggy  
-hopefully it will be fun to play  
+hopefully it will be fun to play eventually  
 
 I know the code is very messy, I will tidy it up eventually  
 

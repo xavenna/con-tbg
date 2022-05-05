@@ -1,7 +1,7 @@
 #include "contbg.h"
 #include "usefrt.h"
 
-bool exesim(std::string name, Scorekeep& n) {
+bool exesim(std::string name, Scorekeep& n, std::mt19937& mt) {
 	if(name == "bin") {
 		std::cout << "Would you like to throw something away? You have the wrong command.\n";
 	}

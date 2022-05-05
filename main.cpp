@@ -15,16 +15,17 @@
  */
 int main() {
 	std::cout << "Console game: created by xavenna. Have fun.\n";
-
+	static std::mt19937 eng(time(NULL));  //I have had problems with std::random_device not being random...maybe replace
+	//this is static in order to resolve the problem of too many generators
 	std::map<std::string, std::string> mli; //master list
-	init(mli);  //initializes master list with potential links
+	init(mli, eng);  //initializes master list with potential links
 	std::map<std::string, std::string> list;
 	list.insert(std::pair("door.exe", "\0")); //these will be added every time
 	list.insert(std::pair("cheats.exe", "\0"));
 	list.insert(std::pair("hide.exe", "\0"));
 	list.insert(std::pair("bazaar.exe", "\0"));
-	chooseRands(mli, list, 0.4f);  //adds some of the random files to the utilized files list
-	std::mt19937 eng(time(NULL));  //I have had problems with std::random_device not being random...maybe replace
+	chooseRands(mli, list, eng, 0.4f);  //adds some of the random files to the utilized files list
+
 	std::uniform_int_distribution<int> dieroll(1,6);
 	Scorekeep score;
 	bool run = true;
@@ -154,7 +155,7 @@ int main() {
 		}
 		else {
 			if(list.count(pin) == 1) {
-				if(!exesim(pin, score))
+				if(!exesim(pin, score, eng))
 					std::cout << "That isn't a valid command.\n";
 			}
 		}

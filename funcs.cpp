@@ -52,20 +52,18 @@ bool load_image(std::vector<unsigned char>& image, const std::string& filename, 
     stbi_image_free(data);
     return (data != nullptr);
 }
-bool coinFlip() {
-	std::mt19937 eng(time(NULL));
+bool coinFlip(std::mt19937& mt) {
 	std::uniform_int_distribution<int> dieroll(1,2);
-	return dieroll(eng);
+	return dieroll(mt);
 }
-void chooseRands(std::map<std::string, std::string>& main, std::map<std::string, std::string>& out, float p) {
-	std::mt19937 eng(time(NULL));
+void chooseRands(std::map<std::string, std::string>& main, std::map<std::string, std::string>& out, std::mt19937& mt, float p) {
 	std::uniform_real_distribution<float> r(0,1);
 	for(auto x : main) {
-		if(r(eng) >= p)
+		if(r(mt) >= p)
 			out.insert(x);
 	}
 }
-void init(std::map<std::string, std::string>& m) { //make sure none of these are required
+void init(std::map<std::string, std::string>& m, std::mt19937& mt) { //make sure none of these are required 
 	m.insert(std::pair("bin", "\0"));
 	m.insert(std::pair("files", "\0"));
 	m.insert(std::pair(".hint.txt", "To leave, you need to find a big key to unlock the door."));
@@ -104,6 +102,6 @@ void init(std::map<std::string, std::string>& m) { //make sure none of these are
 	m.insert(std::pair(pad("f",9)+pad(".",4), "don't run notavirus.exe"));
 	m.insert(std::pair(pad("j",9)+pad(".",4), "don't delete system32"));
 	//create some pseudorandom files:
-	m.emplace(nvp()+randExt(), "This is a random filename.");
-	m.emplace(nvp()+randExt(), "You shouldn't delete system32.\n");
+	m.emplace(nvp(mt)+randExt(mt), "This is a random filename.");
+	m.emplace(nvp(mt)+randExt(mt), "You shouldn't delete system32.\n");
 }
