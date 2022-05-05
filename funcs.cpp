@@ -1,3 +1,4 @@
+#include "cipstr.h"
 #include "contbg.h"
 
 extern "C" {  //for ascii-art-ing images
