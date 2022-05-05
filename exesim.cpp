@@ -139,7 +139,6 @@ bool exesim(std::string name, Scorekeep& n) {
 
 	}
 	else if(name == "cheese.png") {
-		//picdisp("cheese.png");
 		std::cout <<"      CHEESE        \n" <<
 					"                ,;  \n" <<
 					"             ,.`|'  \n" <<
@@ -150,6 +149,10 @@ bool exesim(std::string name, Scorekeep& n) {
 					"  `-_    O   /      \n" <<
 					"     `-__   *|'     \n" <<
 					"         `-__/      \n";
+	}
+	else if(name.substr(name.find(".")+1) == "png") {
+		std::string nfname = "assets/"+name;
+		img2asciiart(nfname);
 	}
 	else {
 		return false;

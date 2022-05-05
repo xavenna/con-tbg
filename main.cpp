@@ -1,14 +1,19 @@
 #include <fstream>
-#include <filesystem> //may be needed if directories are created
 #include <deque>
+#include <ctime>
 #include "usefrt.h"
 #include "cipstr.h"
 #include "randword.h"
 #include "contbg.h"
 
 
-//this is a text-based adventure game inspired by the console
-int main() {  //why does this only contain a single function call?
+/*   this is a text-based adventure game inspired by the console
+ *   TODO:
+ *   add error messages to commands
+ *   organize includes
+ *   work on story
+ */
+int main() {
 	std::cout << "Console game: created by xavenna. Have fun.\n";
 
 	std::map<std::string, std::string> mli; //master list
@@ -19,8 +24,7 @@ int main() {  //why does this only contain a single function call?
 	list.insert(std::pair("hide.exe", "\0"));
 	list.insert(std::pair("bazaar.exe", "\0"));
 	chooseRands(mli, list, 0.4f);  //adds some of the random files to the utilized files list
-	std::random_device rd;
-	std::mt19937 eng(rd());  //I have had problems with std::random_device not being random...maybe replace
+	std::mt19937 eng(time(NULL));  //I have had problems with std::random_device not being random...maybe replace
 	std::uniform_int_distribution<int> dieroll(1,6);
 	Scorekeep score;
 	bool run = true;

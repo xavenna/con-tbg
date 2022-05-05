@@ -48,6 +48,7 @@ bool exesim(std::string, Scorekeep&);
 bool picdisp(std::string);
 char pix2ascii(int, int, int);
 bool img2asciiart(std::string, int, int);
+bool img2asciiart(std::string);
 bool load_image(std::vector<unsigned char>&, const std::string&, int&, int&);
 std::string randNoun();
 std::string randVerb();

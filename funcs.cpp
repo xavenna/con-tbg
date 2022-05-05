@@ -1,7 +1,7 @@
 #include "cipstr.h"
 #include "contbg.h"
-
-extern "C" {  //for ascii-art-ing images
+#include <ctime>
+extern "C" {
 	#define STB_IMAGE_IMPLEMENTATION
 	#include "stb_image.h"
 }
@@ -11,10 +11,26 @@ bool img2asciiart(std::string filename, int width, int height) {
 	if(!load_image(image, filename, w, h)) {
 		return false;
 	}
-	//transform image size to output size
-	for(int i=0;i<w;i++) {
-		for(int j=0;j<h;j++) {
-			size_t index = 3 * (j * width + i);
+	//transform image size to output size -- i'm not entirely sure how to do this
+	
+	for(int i=0;i<h;i++) {
+		for(int j=0;j<w;j++) {
+			size_t index = 3 * (i * w + j);
+			std::cout << pix2ascii(image[index],image[index+1],image[index+2]);
+		}
+		std::cout << '\n';
+	}
+	return true;
+}
+bool img2asciiart(std::string filename) { //overload for using images as default size
+	int w, h;
+	std::vector<unsigned char> image;
+	if(!load_image(image, filename, w, h)) {
+		return false;
+	}
+	for(int i=0;i<h;i++) {
+		for(int j=0;j<w;j++) {
+			size_t index = 3 * (i * w + j);
 			std::cout << pix2ascii(image[index],image[index+1],image[index+2]);
 		}
 		std::cout << '\n';
@@ -37,14 +53,12 @@ bool load_image(std::vector<unsigned char>& image, const std::string& filename, 
     return (data != nullptr);
 }
 bool coinFlip() {
-	std::random_device rd;
-	std::mt19937 eng(rd());
+	std::mt19937 eng(time(NULL));
 	std::uniform_int_distribution<int> dieroll(1,2);
 	return dieroll(eng);
 }
 void chooseRands(std::map<std::string, std::string>& main, std::map<std::string, std::string>& out, float p) {
-	std::random_device rd;
-	std::mt19937 eng(rd());
+	std::mt19937 eng(time(NULL));
 	std::uniform_real_distribution<float> r(0,1);
 	for(auto x : main) {
 		if(r(eng) >= p)
@@ -80,6 +94,9 @@ void init(std::map<std::string, std::string>& m) { //make sure none of these are
 	m.insert(std::pair("bonus.exe", "\0"));
 	m.insert(std::pair("tmp.txt", "829032178bcd3ab078aeb78ab0bf8073abc0")); //maybe make andom
 	m.insert(std::pair("llave.exe", "\0"));
+	m.emplace("lock.png","\0");
+	m.emplace("player.png","\0");
+	m.emplace("board.png","\0");
 	//create some random files:
 	m.insert(std::pair(pad("n",8), "This was procedurally generated. Cool, right?"));
 	m.insert(std::pair(pad("q",9)+pad(".",4), "Randomfuhreuiohuriohruehgulslsj"));
